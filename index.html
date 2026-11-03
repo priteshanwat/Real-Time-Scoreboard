@@ -14,8 +14,8 @@
 *{box-sizing:border-box;margin:0}
 html{padding-top:env(safe-area-inset-top,0px);padding-bottom:env(safe-area-inset-bottom,0px)}
 body{background:var(--bg);color:var(--ink);font:400 16px/1.5 var(--body);min-height:100vh}
-button,input,select{font:inherit;color:inherit}
-button:focus-visible,input:focus-visible,select:focus-visible{outline:3px solid var(--blue);outline-offset:2px}
+button,input{font:inherit;color:inherit}
+button:focus-visible,input:focus-visible{outline:3px solid var(--blue);outline-offset:2px}
 .wrap{max-width:1200px;margin:0 auto;padding:20px 20px 60px}
 header{display:flex;align-items:center;justify-content:space-between;gap:16px;flex-wrap:wrap;margin-bottom:28px}
 .brand{display:flex;align-items:center;gap:12px;font:800 28px/1 var(--display);letter-spacing:-.03em}
@@ -24,63 +24,89 @@ header{display:flex;align-items:center;justify-content:space-between;gap:16px;fl
 .live{display:flex;align-items:center;gap:8px;font-weight:600;color:var(--mute);font-size:14px}
 .dot{width:10px;height:10px;border-radius:50%;background:#bbb}.dot.on{background:#22b573;animation:pulse 2s infinite}
 @keyframes pulse{50%{box-shadow:0 0 0 6px rgba(34,181,115,.2)}}
-@media(prefers-reduced-motion:reduce){.dot.on{animation:none}*{transition:none!important}}
 h1{font:800 clamp(34px,6vw,64px)/1 var(--display);letter-spacing:-.04em;margin-bottom:6px}
-.sub{color:var(--mute);margin-bottom:32px}
+h2{font:800 24px/1.2 var(--display);letter-spacing:-.03em;margin-bottom:14px}
+.sub{color:var(--mute);margin-bottom:24px}
+.hint{color:var(--mute);font-size:14px;margin-bottom:12px}
+/* game progress strip */
+.strip{display:flex;gap:8px;flex-wrap:wrap;margin-bottom:24px}
+.gp{padding:6px 14px;border-radius:30px;border:2px solid var(--line);background:var(--card);font-weight:600;font-size:14px;color:var(--mute)}
+.gp.done{color:var(--ink)}.gp.done:before{content:"✓ ";color:#22b573}
+.gp.cur{background:var(--blue);border-color:var(--blue);color:#fff}
+/* panels */
+.grid2{display:grid;grid-template-columns:1fr 1fr;gap:20px;margin-bottom:28px}
+.panel{background:var(--card);border-radius:22px;padding:22px}
+.big-msg{display:grid;place-items:center;text-align:center;min-height:240px;color:var(--mute)}
+.big-msg b{display:block;font:800 28px/1.2 var(--display);color:var(--ink);margin-bottom:8px}
+/* clear, responsive horizontal bar chart */
+.chart{display:grid;gap:13px;min-width:0}
+.cr{display:grid;grid-template-columns:minmax(84px,150px) minmax(0,1fr) 42px;gap:10px;align-items:center}
+.cl{text-align:right;font-weight:700;line-height:1.2;overflow-wrap:anywhere;font-size:14px}
+.cl i{font:800 11px var(--display);font-style:normal;background:var(--bg);color:var(--mute);border-radius:20px;padding:2px 7px;margin-right:5px;white-space:nowrap}
+.ct{position:relative;height:24px;border-radius:7px;overflow:hidden;background-color:var(--bg);background-image:linear-gradient(90deg,var(--line) 1px,transparent 1px);background-size:25% 100%;border-right:1px solid var(--line)}
+.cf{height:100%;min-width:0;border-radius:7px;background:var(--c);transition:width .55s ease}
+.cv{font:800 15px var(--display);font-variant-numeric:tabular-nums;text-align:left;white-space:nowrap}
+.ticks{display:flex;justify-content:space-between;color:var(--mute);font-size:11px;font-variant-numeric:tabular-nums}
+.chart .axis{grid-column:2 / 3}
 /* podium */
 .podium{display:grid;grid-template-columns:1fr 1.15fr 1fr;gap:14px;align-items:end;margin-bottom:28px}
 .step{background:var(--card);border-radius:22px;padding:20px;border-top:10px solid var(--c);display:flex;flex-direction:column;gap:4px;min-height:var(--h)}
-.step.r1{--c:var(--gold);--h:290px;order:2}.step.r2{--c:var(--silver);--h:230px;order:1}.step.r3{--c:var(--bronze);--h:190px;order:3}
+.step.r1{--c:var(--gold);--h:290px;order:2;--d:2.6s}.step.r2{--c:var(--silver);--h:230px;order:1;--d:1.3s}.step.r3{--c:var(--bronze);--h:190px;order:3;--d:0s}
+.anim .step{animation:rise .8s var(--d) both cubic-bezier(.2,.9,.3,1.2)}
+@keyframes rise{from{opacity:0;transform:translateY(60px) scale(.9)}}
 .medal{font:800 15px var(--display);color:var(--mute)}
 .step .tn{font:800 clamp(22px,3vw,34px)/1.1 var(--display);letter-spacing:-.03em}
 .step .cap{color:var(--mute);font-size:14px}
 .step .pts{margin-top:auto;font:800 clamp(44px,7vw,84px)/1 var(--display);letter-spacing:-.05em;font-variant-numeric:tabular-nums}
 .step .pts span{font:600 14px var(--body);letter-spacing:0;color:var(--mute);margin-left:6px}
-/* list */
-.panel{background:var(--card);border-radius:22px;padding:8px 20px;margin-bottom:28px}
-.row{display:grid;grid-template-columns:44px 1fr auto;gap:14px;align-items:center;padding:14px 0;border-bottom:1px solid var(--line)}
-.row:last-child{border:0}
-.rk{font:800 24px var(--display);color:var(--mute)}
-.row .tn{font:800 20px var(--display);letter-spacing:-.02em}
-.row .cap{font-size:14px;color:var(--mute)}
-.bar{height:8px;border-radius:8px;background:var(--line);margin-top:8px;overflow:hidden}
-.bar i{display:block;height:100%;background:var(--blue);border-radius:8px;transition:width .8s}
-.row .pts{font:800 30px var(--display);font-variant-numeric:tabular-nums}
 .chips{display:flex;flex-wrap:wrap;gap:6px;margin-top:8px}
 .chip{font-size:12px;background:var(--bg);border-radius:20px;padding:2px 10px;color:var(--mute)}
-h2{font:800 24px var(--display);letter-spacing:-.03em;margin-bottom:12px}
-.tw{overflow-x:auto;background:var(--card);border-radius:22px;padding:8px 12px}
+/* calculating */
+.calc{display:grid;place-items:center;text-align:center;min-height:50vh;gap:14px}
+.calc b{font:800 clamp(30px,5vw,52px)/1.1 var(--display);letter-spacing:-.04em}
+.spin{width:64px;height:64px;border-radius:50%;border:8px solid var(--line);border-top-color:var(--blue);animation:sp 1s linear infinite}
+@keyframes sp{to{transform:rotate(360deg)}}
+/* table */
+.tw{overflow-x:auto;background:var(--card);border-radius:22px;padding:8px 12px;margin-bottom:28px}
 table{border-collapse:collapse;width:100%;min-width:480px}
 th,td{padding:12px 10px;text-align:center;border-bottom:1px solid var(--line);font-variant-numeric:tabular-nums}
 th:first-child,td:first-child{text-align:left;font-weight:600}
-th{font-weight:600;color:var(--mute);font-size:14px}
+th{font-weight:600;color:var(--mute);font-size:14px}th.cur{color:var(--blue)}
 tr:last-child td{border:0}
 td.best{font-weight:800;color:var(--blue)}
 .empty{background:var(--card);border-radius:22px;padding:40px 24px;text-align:center;color:var(--mute)}
 .empty b{display:block;color:var(--ink);font:800 24px var(--display);margin-bottom:8px}
-.empty code{background:var(--bg);padding:2px 8px;border-radius:6px}
+.empty code{background:var(--bg);padding:2px 8px;border-radius:6px;overflow-wrap:anywhere}
 /* admin */
 .tabs{display:flex;gap:8px;margin-bottom:18px;flex-wrap:wrap}
 .tab{border:2px solid var(--line);background:var(--card);border-radius:30px;padding:8px 18px;cursor:pointer;font-weight:600}
 .tab[aria-pressed=true]{background:var(--blue);border-color:var(--blue);color:#fff}
 .card{background:var(--card);border-radius:20px;padding:16px;margin-bottom:12px}
 .sc{display:flex;align-items:center;justify-content:space-between;gap:12px;flex-wrap:wrap}
-.sc .tn{font:800 20px var(--display)}
+.sc .tn{font:800 20px var(--display);display:flex;align-items:center;gap:8px}
+.sw{width:14px;height:14px;border-radius:4px;display:inline-block}
 .ctl{display:flex;gap:6px;align-items:center}
-.ctl button,.btn{min-width:44px;height:44px;border-radius:12px;border:2px solid var(--line);background:var(--bg);cursor:pointer;font-weight:600;padding:0 12px}
+.ctl button,.btn{min-width:44px;height:44px;border-radius:12px;border:2px solid var(--line);background:var(--bg);cursor:pointer;font-weight:600;padding:0 14px}
 .ctl button.p{background:var(--blue);border-color:var(--blue);color:#fff}
 .ctl input{width:76px;height:44px;text-align:center;border-radius:12px;border:2px solid var(--line);background:var(--bg);font:800 22px var(--display)}
 .btn.pri{background:var(--blue);border-color:var(--blue);color:#fff}.btn.del{color:#d32f4f}
+.btn.big{width:100%;height:56px;font-size:18px;margin:6px 0 18px}
+.btn[disabled]{opacity:.5;cursor:not-allowed}
 .f{display:grid;gap:8px}
-.f input{height:44px;border-radius:12px;border:2px solid var(--line);background:var(--bg);padding:0 12px;width:100%}
-.hint{color:var(--mute);font-size:14px;margin-bottom:12px}
+.f input,.nm{height:44px;border-radius:12px;border:2px solid var(--line);background:var(--bg);padding:0 12px;width:100%}
+.nowcard{background:var(--blue);color:#fff;border-radius:20px;padding:16px 18px;margin-bottom:12px}
+.nowcard h2{margin:0}.nowcard .hint{color:#dfe3ff;margin:0}
+.prog{height:8px;border-radius:8px;background:var(--line);margin-bottom:16px;overflow:hidden}.prog i{display:block;height:100%;background:var(--blue)}
 .gate{max-width:340px;margin:12vh auto;text-align:center}
 .gate .f{margin-top:16px}
-@media(max-width:700px){
+@media(max-width:800px){
+ .grid2{grid-template-columns:1fr}
  .podium{grid-template-columns:1fr}
  .step.r1,.step.r2,.step.r3{order:0;min-height:0}.step.r1{order:-1}.step .pts{margin-top:10px}
- .row{grid-template-columns:34px 1fr auto}
+ .cr{grid-template-columns:minmax(76px,110px) minmax(0,1fr) 34px;gap:7px}.cl{font-size:12px}.cv{font-size:13px}.panel{padding:16px}
+ .ctl{flex-wrap:wrap;justify-content:flex-end}.ctl input{width:64px}.ctl button{min-width:40px;padding:0 9px}
 }
+@media(prefers-reduced-motion:reduce){*{transition:none!important;animation:none!important}}
 </style>
 </head>
 <body>
@@ -91,32 +117,37 @@ td.best{font-weight:800;color:var(--blue)}
 const CONFIG = { sheetURL: "https://script.google.com/macros/s/AKfycbymH7W6h2lz9QJoBVOh4HAf0IRw0e5CU604kVTt54XBfTLBY3rALzo-q-L_h9z9QjUD/exec" };
 /* ============================================================================= */
 
-let S = {teams:{},games:{},scores:{}};
-let connected = false, tab = "score", gameSel = null, last = "", pending = 0, chain = Promise.resolve();
+const COLORS = ["#3347ff","#e6455a","#0f9d77","#c76a05","#8b3fd9","#0891b2","#c2410c","#4d7c0f","#be185d","#475569"];
 const live = !!CONFIG.sheetURL;
+let S = {teams:{},games:{},scores:{},meta:{}};
+let connected = false, loaded = !live, tab = "score", last = "", pending = 0, chain = Promise.resolve();
 let pin = sessionStorage.getItem("pxPin") || "";
 let unlocked = !live || sessionStorage.getItem("pxAdmin") === "1";
+let prevAnn = null, calcUntil = 0, revealSeen = false;
 const $app = document.getElementById("app");
 const isAdmin = () => location.hash === "#admin";
 const esc = s => String(s ?? "").replace(/[&<>"']/g, c => ({"&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;","'":"&#39;"}[c]));
 const uid = p => p + Date.now().toString(36) + Math.random().toString(36).slice(2,5);
+const $ = id => document.getElementById(id);
 
-/* ---------- storage layer: Google Sheet if configured, otherwise browser-only demo ---------- */
+/* ---------- storage: Google Sheet if configured, otherwise browser-only demo ---------- */
+const norm = d => ({teams:d.teams||{}, games:d.games||{}, scores:d.scores||{}, meta:d.meta||{}});
 function applyLocal(path, val){
   const parts = path.split("/"); let o = S;
   parts.slice(0,-1).forEach(k => o = (o[k] = o[k] || {}));
   const k = parts[parts.length-1];
   val === null ? delete o[k] : o[k] = val;
+  S = norm(S);
 }
-function applyState(d){ S = {teams:d.teams||{}, games:d.games||{}, scores:d.scores||{}}; last = JSON.stringify(S); }
+function applyState(d){ S = norm(d); last = JSON.stringify(S); loaded = true; }
 function setPath(path, val){
-  applyLocal(path, val); render();
+  applyLocal(path, val); render(true);
   if(!live){ localStorage.setItem("pxDemo", JSON.stringify(S)); return; }
   pending++;
   chain = chain.then(async () => {
     const r = await fetch(CONFIG.sheetURL, {method:"POST", body:JSON.stringify({path, val, pin})});
     const d = await r.json();
-    if(d.error){ alert("Not saved: wrong PIN. Reload and unlock again."); return; }
+    if(d.error){ alert("Not saved: wrong PIN. Reload the page and unlock again."); return; }
     connected = true; if(pending <= 1) applyState(d);
   }).catch(() => { connected = false; }).finally(() => { pending--; render(); });
 }
@@ -126,16 +157,20 @@ async function poll(){
   try{
     const r = await fetch(CONFIG.sheetURL + "?t=" + Date.now());
     const d = await r.json(); connected = true;
-    const j = JSON.stringify({teams:d.teams||{}, games:d.games||{}, scores:d.scores||{}});
-    if(j !== last){ applyState(d); render(); } else if(was !== connected) render();
+    if(!loaded || JSON.stringify(norm(d)) !== last){ applyState(d); render(); }
+    else if(!was) render();
   }catch(e){ connected = false; if(was) render(); }
 }
 function start(){
   if(live){ render(); poll(); setInterval(poll, 3000); }
-  else { try{ S = Object.assign({teams:{},games:{},scores:{}}, JSON.parse(localStorage.getItem("pxDemo")||"{}")); }catch(e){} render(); }
+  else { try{ S = norm(JSON.parse(localStorage.getItem("pxDemo")||"{}")); }catch(e){} render(); }
 }
 
 /* ---------- calculations ---------- */
+const gamesList = () => Object.entries(S.games).map(([id,g]) => ({id, ...g}));
+const currentGame = () => gamesList().find(g => !g.done) || null;
+const teamColor = id => COLORS[Object.keys(S.teams).indexOf(id) % COLORS.length];
+const members = t => (t.members||"").split(",").map(s=>s.trim()).filter(Boolean);
 function standings(){
   const gids = Object.keys(S.games);
   const list = Object.entries(S.teams).map(([id,t]) => {
@@ -145,55 +180,95 @@ function standings(){
   list.forEach((t,i) => t.rank = i && t.total === list[i-1].total ? list[i-1].rank : i+1);
   return list;
 }
-const members = t => (t.members||"").split(",").map(s=>s.trim()).filter(Boolean);
+const niceMax = m => Math.max(10, Math.ceil(m/10)*10);
+
+/* ---------- bar chart ---------- */
+function chart(rows){
+  const max = niceMax(Math.max(0, ...rows.map(r=>r.val)));
+  return `<div class="chart">` + rows.map(r => `<div class="cr">
+    <div class="cl">${r.rk?`<i>${r.rk}</i>`:""}${esc(r.name)}</div>
+    <div class="ct"><div class="cf" style="width:${Math.max(0,Number(r.val)||0)/max*100}%;--c:${r.color}"></div></div>
+    <div class="cv">${Number(r.val)||0}</div></div>`).join("") +
+    `<div class="cr"><div></div><div class="ticks"><span>0</span><span>${max/2}</span><span>${max}</span></div><div></div></div></div>`;
+}
+function table(L, G, cur){
+  return `<div class="tw"><table><thead><tr><th>Team</th>${G.map(g=>`<th class="${cur&&cur.id===g.id?"cur":""}">${esc(g.name)}</th>`).join("")}<th>Total</th></tr></thead><tbody>` +
+  L.map(t => `<tr><td>${esc(t.name)}</td>${t.per.map((p,i)=>{
+      const show = G[i].done || (cur && cur.id === G[i].id);
+      const best = Math.max(...L.map(x=>x.per[i]));
+      return show ? `<td class="${p>0&&p===best?"best":""}">${p}</td>` : `<td>–</td>`;
+    }).join("")}<td><b>${t.total}</b></td></tr>`).join("") + `</tbody></table></div>`;
+}
 
 /* ---------- dashboard ---------- */
+function annState(){
+  const a = !!S.meta.announced;
+  if(loaded && !isAdmin() && prevAnn === false && a){ calcUntil = Date.now() + 4500; setTimeout(render, 4600); }
+  if(loaded) prevAnn = a;
+}
 function dashboard(){
-  const L = standings(), gids = Object.keys(S.games), max = Math.max(1, ...L.map(t=>t.total));
-  const medal = ["", "Champions", "Runner-up", "Second runner-up"];
-  let h = `<header><div class="brand"><div class="mark">P</div><div>Paexskin<small>Office Games</small></div></div>
-  <div class="live"><span class="dot ${(connected||!live)?"on":""}"></span>${live ? (connected?"Live":"Connecting…") : "Demo mode (this browser only)"}</div></header>
-  <h1>Games Championship</h1><p class="sub">${gids.length} game${gids.length===1?"":"s"} played · ${L.length} team${L.length===1?"":"s"} competing</p>`;
-  if(!L.length){
-    h += `<div class="empty"><b>No teams yet</b>Open <code>${esc(location.href.split("#")[0])}#admin</code> on your phone to add teams, games and scores.</div>`;
-    return h;
-  }
-  const top = L.filter(t=>t.rank<=3 && t.total>0).slice(0,3);
-  if(top.length){
-    h += `<div class="podium">` + top.map(t=>`<div class="step r${t.rank}"><div class="medal">${medal[t.rank]}</div>
+  const head = `<header><div class="brand"><div class="mark">P</div><div>Paexskin<small>Office Games</small></div></div>
+  <div class="live"><span class="dot ${(connected||!live)?"on":""}"></span>${live ? (connected?"Live":"Connecting…") : "Demo mode (this browser only)"}</div></header>`;
+  if(!loaded) return head + `<div class="empty"><b>Loading scores…</b>If this stays here, check the web app URL in index.html.</div>`;
+  const L = standings(), G = gamesList(), cur = currentGame(), ann = !!S.meta.announced;
+  if(!L.length || !G.length) return head + `<h1>Games Championship</h1><div class="empty" style="margin-top:24px"><b>Getting ready</b>Open <code>${esc(location.href.split("#")[0])}#admin</code> on your phone to add teams and games.</div>`;
+
+  if(ann && Date.now() < calcUntil)
+    return head + `<div class="calc"><div class="spin"></div><b>Counting points across ${G.length} game${G.length===1?"":"s"}…</b><span class="sub">The result is coming up</span></div>`;
+
+  const doneN = G.filter(g=>g.done).length;
+  if(ann){
+    const top = L.filter(t=>t.rank<=3 && t.total>0).slice(0,3), anim = !revealSeen;
+    setTimeout(()=>{revealSeen = true}, 6000);
+    const medal = ["","Champions","Runner-up","Second runner-up"];
+    return head + `<h1>Final result</h1><p class="sub">${G.length} games · ${L.length} teams</p>
+    <div class="podium ${anim?"anim":""}">` + top.map(t=>`<div class="step r${t.rank}"><div class="medal">${medal[t.rank]}</div>
       <div class="tn">${esc(t.name)}</div><div class="cap">Captain: ${esc(t.captain||"—")}</div>
-      <div class="pts">${t.total}<span>pts</span></div></div>`).join("") + `</div>`;
+      <div class="chips">${members(t).map(m=>`<span class="chip">${esc(m)}</span>`).join("")}</div>
+      <div class="pts">${t.total}<span>pts</span></div></div>`).join("") + `</div>
+    <div class="panel" style="margin-bottom:28px"><h2>Final standings</h2>${chart(L.map(t=>({name:t.name,val:t.total,color:teamColor(t.id),rk:t.rank})))}</div>
+    <h2>Points in every game</h2>${table(L,G,null)}`;
   }
-  const rest = L.filter(t => !top.includes(t));
-  if(rest.length) h += `<div class="panel">` + rest.map(t=>`<div class="row"><div class="rk">${t.rank}</div>
-    <div><div class="tn">${esc(t.name)}</div><div class="cap">Captain: ${esc(t.captain||"—")}</div>
-    <div class="bar"><i style="width:${t.total/max*100}%"></i></div>
-    <div class="chips">${members(t).map(m=>`<span class="chip">${esc(m)}</span>`).join("")}</div></div>
-    <div class="pts">${t.total}</div></div>`).join("") + `</div>`;
-  if(gids.length){
-    h += `<h2>Scores by game</h2><div class="tw"><table><thead><tr><th>Team</th>${gids.map(g=>`<th>${esc(S.games[g].name)}</th>`).join("")}<th>Total</th></tr></thead><tbody>` +
-    L.map(t=>`<tr><td>${esc(t.name)}</td>${t.per.map((p,i)=>{const best=Math.max(...L.map(x=>x.per[i]));return `<td class="${p>0&&p===best?"best":""}">${p}</td>`}).join("")}<td><b>${t.total}</b></td></tr>`).join("") + `</tbody></table></div>`;
-  }
-  return h;
+
+  const strip = `<div class="strip">${G.map(g=>`<span class="gp ${g.done?"done":(cur&&cur.id===g.id?"cur":"")}">${esc(g.name)}</span>`).join("")}</div>`;
+  const left = cur
+    ? `<div class="panel"><h2>Now playing: ${esc(cur.name)}</h2>${chart(Object.entries(S.teams).map(([id,t])=>({name:t.name,val:Number(S.scores[cur.id]?.[id])||0,color:teamColor(id)})).sort((a,b)=>b.val-a.val||a.name.localeCompare(b.name)))}</div>`
+    : `<div class="panel big-msg"><div><b>All games are finished</b>Waiting for the result announcement…</div></div>`;
+  return head + `<h1>Games Championship</h1><p class="sub">${cur ? `Game ${doneN+1} of ${G.length}` : `${G.length} of ${G.length} games played`} · ${L.length} teams competing</p>${strip}
+  <div class="grid2">${left}<div class="panel"><h2>Overall points</h2>${chart(L.map(t=>({name:t.name,val:t.total,color:teamColor(t.id),rk:t.rank})))}</div></div>
+  <h2>Points in every game</h2>${table(L,G,cur)}`;
 }
 
 /* ---------- admin (phone) ---------- */
 function admin(){
   if(!unlocked) return `<div class="gate"><div class="mark" style="margin:0 auto 14px">P</div><h2>Score entry</h2><p class="hint">Enter the PIN to continue.</p>
     <div class="f"><input id="pin" type="password" inputmode="numeric" placeholder="PIN" autocomplete="off"><button class="btn pri" onclick="unlock()">Unlock</button></div></div>`;
-  const gids = Object.keys(S.games), tids = Object.keys(S.teams);
-  if(!gameSel || !S.games[gameSel]) gameSel = gids[0] || null;
+  if(!loaded) return `<div class="empty"><b>Loading…</b></div>`;
+  const G = gamesList(), tids = Object.keys(S.teams), cur = currentGame(), ann = !!S.meta.announced, doneN = G.filter(g=>g.done).length;
   let h = `<header><div class="brand"><div class="mark">P</div><div>Paexskin<small>Score entry</small></div></div><a class="btn" href="#" style="display:grid;place-items:center;text-decoration:none">View scoreboard</a></header>
-  <div class="tabs">${[["score","Enter scores"],["teams","Teams"],["games","Games"]].map(([k,l])=>`<button class="tab" aria-pressed="${tab===k}" onclick="tab='${k}';render()">${l}</button>`).join("")}</div>`;
+  <div class="tabs">${[["score","Play"],["teams","Teams"],["games","Games"]].map(([k,l])=>`<button class="tab" aria-pressed="${tab===k}" onclick="tab='${k}';render(true)">${l}</button>`).join("")}</div>`;
+
   if(tab==="score"){
-    if(!gids.length || !tids.length) return h + `<div class="empty"><b>Set up first</b>Add at least one team and one game using the other tabs.</div>`;
-    h += `<div class="tabs">${gids.map(g=>`<button class="tab" aria-pressed="${g===gameSel}" onclick="gameSel='${g}';render()">${esc(S.games[g].name)}</button>`).join("")}</div>
-    <p class="hint">Points for this game. Changes show on the scoreboard instantly.</p>`;
-    h += standings().sort((a,b)=>a.name.localeCompare(b.name)).map(t=>{const v=Number(S.scores[gameSel]?.[t.id])||0;
-      return `<div class="card sc"><div><div class="tn">${esc(t.name)}</div><div class="hint" style="margin:0">Total ${t.total}</div></div>
-      <div class="ctl"><button onclick="bump('${t.id}',-5)">−5</button><button onclick="bump('${t.id}',-1)">−1</button>
-      <input type="number" inputmode="numeric" value="${v}" onchange="putScore('${t.id}',this.value)" aria-label="Score for ${esc(t.name)}">
-      <button class="p" onclick="bump('${t.id}',1)">+1</button><button class="p" onclick="bump('${t.id}',5)">+5</button></div></div>`}).join("");
+    if(!G.length || !tids.length) return h + `<div class="empty"><b>Set up first</b>Add at least one team and one game using the Teams and Games tabs.</div>`;
+    h += `<div class="prog"><i style="width:${doneN/G.length*100}%"></i></div>`;
+    if(cur){
+      const next = G.filter(g=>!g.done && g.id!==cur.id)[0];
+      h += `<div class="nowcard"><div class="hint">Game ${doneN+1} of ${G.length} · NOW PLAYING</div><h2>${esc(cur.name)}</h2><p class="hint">Enter scores for every team, then finish this game to unlock the next one.</p></div>`;
+      h += Object.entries(S.teams).map(([id,t])=>{const v=Number(S.scores[cur.id]?.[id])||0;
+        return `<div class="card sc"><div class="tn"><span class="sw" style="background:${teamColor(id)}"></span>${esc(t.name)}</div>
+        <div class="ctl"><button onclick="bump('${id}',-5)">−5</button><button onclick="bump('${id}',-1)">−1</button>
+        <input type="number" inputmode="numeric" value="${v}" onchange="putScore('${id}',this.value)" aria-label="Score for ${esc(t.name)}">
+        <button class="p" onclick="bump('${id}',1)">+1</button><button class="p" onclick="bump('${id}',5)">+5</button></div></div>`}).join("");
+      h += `<button class="btn pri big" style="margin-top:14px" onclick="finishGame('${cur.id}')">Finish ${esc(cur.name)}${next?` and start ${esc(next.name)}`:""}</button>`;
+    } else if(!ann){
+      h += `<div class="card"><h2>All games are finished</h2><p class="hint">Every game is scored. Announce the result to show the winners on the scoreboard.</p></div>
+      <button class="btn pri big" onclick="announce()">Announce result</button>`;
+    } else {
+      h += `<div class="card"><h2>Result announced ✓</h2><p class="hint">The scoreboard is showing the final result.</p></div>
+      <button class="btn big" onclick="hideResult()">Hide result</button>`;
+    }
+    const doneGames = G.filter(g=>g.done);
+    if(doneGames.length) h += `<h2 style="margin-top:8px">Finished games</h2>` + doneGames.map(g=>`<div class="card sc"><b>✓ ${esc(g.name)}</b><button class="btn" onclick="reopen('${g.id}')">Reopen to edit</button></div>`).join("");
   }
   if(tab==="teams"){
     h += `<div class="card f"><b>Add a team</b><input id="tn" placeholder="Team name"><input id="tc" placeholder="Captain / leader"><input id="tm" placeholder="Members, separated by commas"><button class="btn pri" onclick="addTeam()">Add team</button></div>`;
@@ -203,36 +278,86 @@ function admin(){
       <button class="btn del" onclick="delTeam('${id}')">Delete team</button></div>`}).join("");
   }
   if(tab==="games"){
-    h += `<div class="card f"><b>Add a game</b><input id="gn" placeholder="Game name, e.g. Carrom"><button class="btn pri" onclick="addGame()">Add game</button></div>`;
-    h += gids.map(id=>`<div class="card sc"><input style="flex:1;height:44px;border-radius:12px;border:2px solid var(--line);background:var(--bg);padding:0 12px" value="${esc(S.games[id].name)}" onchange="setPath('games/${id}/name',this.value)" aria-label="Game name">
-      <button class="btn del" onclick="delGame('${id}')">Delete</button></div>`).join("");
-    if(gids.length) h += `<button class="btn del" style="width:100%;margin-top:12px" onclick="resetScores()">Reset all scores to zero</button>`;
+    h += `<div class="card f"><b>Add a game</b><input id="gn" placeholder="Game name, e.g. Carrom"><button class="btn pri" onclick="addGame()">Add game</button></div>
+    <p class="hint">Games are played in the order shown, one at a time. Finish the current game in the Play tab to move to the next.</p>`;
+    h += G.map((g,i)=>`<div class="card sc"><input class="nm" style="flex:1" value="${esc(g.name)}" onchange="setPath('games/${g.id}/name',this.value)" aria-label="Game ${i+1} name">
+      <button class="btn del" onclick="delGame('${g.id}')">Delete</button></div>`).join("");
+    if(G.length) h += `<button class="btn del" style="width:100%;margin-top:12px" onclick="startOver()">Start over: reset all scores</button>`;
   }
   return h;
 }
 async function unlock(){
-  const v = document.getElementById("pin").value; document.activeElement.blur();
+  const v = $("pin").value; document.activeElement.blur();
   try{
     const r = await fetch(CONFIG.sheetURL, {method:"POST", body:JSON.stringify({check:1, pin:v})});
     const d = await r.json();
     if(d.error) return alert("Wrong PIN. Try again.");
-    pin = v; unlocked = true; sessionStorage.setItem("pxPin", v); sessionStorage.setItem("pxAdmin","1"); render();
+    pin = v; unlocked = true; sessionStorage.setItem("pxPin", v); sessionStorage.setItem("pxAdmin","1"); render(true);
   }catch(e){ alert("Could not reach the Google Sheet. Check the web app URL in index.html."); }
 }
-function putScore(t,v){ setPath(`scores/${gameSel}/${t}`, Math.round(Number(v)||0)); }
-function bump(t,d){ putScore(t, (Number(S.scores[gameSel]?.[t])||0) + d); }
-function addTeam(){ document.activeElement.blur(); const n=tn.value.trim(); if(!n) return alert("Enter a team name."); setPath("teams/"+uid("t"),{name:n,captain:tc.value.trim(),members:tm.value.trim()}); }
-function addGame(){ document.activeElement.blur(); const n=gn.value.trim(); if(!n) return alert("Enter a game name."); setPath("games/"+uid("g"),{name:n}); }
-function delTeam(id){ if(!confirm("Delete this team and its scores?")) return; setPath("teams/"+id,null); Object.keys(S.scores).forEach(g=>{ if(S.scores[g]?.[id]!==undefined) setPath(`scores/${g}/${id}`,null); }); }
-function delGame(id){ if(confirm("Delete this game and its scores?")){ setPath("games/"+id,null); setPath("scores/"+id,null); } }
-function resetScores(){ if(confirm("Set every score back to zero?")) setPath("scores",null); }
+function putScore(t,v){
+  const g = currentGame();
+  if(g) setPath(`scores/${g.id}/${t}`, Math.max(0, Math.round(Number(v)||0)));
+}
+function bump(t,d){
+  const g = currentGame();
+  if(g) putScore(t, Math.max(0, (Number(S.scores[g.id]?.[t])||0) + d));
+}
+function finishGame(id){
+  const g = currentGame();
+  if(!g || g.id !== id) return alert("Finish the current game first.");
+  if(confirm("Finish this game and lock its scores? You can reopen it later.")) setPath(`games/${id}/done`, true);
+}
+function reopen(id){
+  if(!confirm("Reopen this game? The final announcement will be hidden until all games are completed again.")) return;
+  setPath(`games/${id}/done`, null);
+  setPath("meta/announced", null);
+}
+function announce(){
+  const G = gamesList();
+  if(!G.length || G.some(g=>!g.done)) return alert("Complete every game before announcing the result.");
+  if(confirm("Announce the final result on the scoreboard now?")) setPath("meta/announced", true);
+}
+function hideResult(){ setPath("meta/announced", null); }
+function addTeam(){ const n = $("tn").value.trim(); if(!n) return alert("Enter a team name."); const c=$("tc").value.trim(), m=$("tm").value.trim(); document.activeElement.blur(); setPath("teams/"+uid("t"), {name:n, captain:c, members:m}); setPath("meta/announced", null); }
+function addGame(){ const n = $("gn").value.trim(); if(!n) return alert("Enter a game name."); document.activeElement.blur(); setPath("games/"+uid("g"), {name:n}); setPath("meta/announced", null); }
+function delTeam(id){ if(!confirm("Delete this team and its scores?")) return; setPath("teams/"+id, null); Object.keys(S.scores).forEach(g=>{ if(S.scores[g] && S.scores[g][id] !== undefined) setPath(`scores/${g}/${id}`, null); }); }
+function delGame(id){ if(confirm("Delete this game and its scores?")){ setPath("games/"+id, null); setPath("scores/"+id, null); } }
+async function startOver(){
+  if(!confirm("Reset ALL scores to zero, reopen every game and hide the announced result?")) return;
+  if(!live){
+    S.scores = {};
+    S.meta = {};
+    Object.values(S.games).forEach(g => { delete g.done; });
+    S = norm(S);
+    localStorage.setItem("pxDemo", JSON.stringify(S));
+    render(true);
+    return;
+  }
+  try{
+    const r = await fetch(CONFIG.sheetURL, {
+      method:"POST",
+      body:JSON.stringify({action:"resetAll", pin})
+    });
+    const d = await r.json();
+    if(d.error) return alert("Reset failed: PIN rejected. Reload and unlock again.");
+    if(d.ok === false) return alert(d.message || "Reset failed. Please try again.");
+    applyState(d);
+    render(true);
+  }catch(e){
+    alert("Could not reset scores. Check your connection and try again.");
+  }
+}
 
 /* ---------- render ---------- */
-function render(){
-  if(isAdmin() && document.activeElement && document.activeElement.matches("#app .f input,#app .sc input")) return;
-  $app.innerHTML = isAdmin() ? admin() : dashboard();
+function render(force){
+  const a = document.activeElement;
+  if(!force && isAdmin() && a && a.matches("#app .f input,#app .sc input")) return;
+  annState();
+  try{ $app.innerHTML = isAdmin() ? admin() : dashboard(); }
+  catch(e){ console.error(e); $app.innerHTML = '<div class="empty"><b>Something went wrong</b>Reload the page. Details are in the browser console.</div>'; }
 }
-window.addEventListener("hashchange", () => { document.activeElement.blur(); render(); });
+window.addEventListener("hashchange", () => { if(document.activeElement) document.activeElement.blur(); render(true); });
 start();
 </script>
 </body>
